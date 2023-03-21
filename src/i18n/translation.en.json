@@ -1,0 +1,31 @@
+{
+    "COMMON": {},
+    "MENU": {},
+    "BUTTON": {
+        "ADD": "Add",
+        "MODIFY": "Modify",
+        "DELETE": "Delete",
+        "UPLOAD": "Choose File",
+        "RESET": "Reset",
+        "CANCEL": "Cancel",
+        "CLOSE": "Close",
+        "SEARCH": "Search",
+        "CONFIRM": "Confirm",
+        "LIST": "List"
+    },
+    "USER_INFO": {
+        "LOGOUT": "Logout",
+        "MOVE_MAIN_PAGE": "Move Main Page",
+        "CHANGE_PWD": "Change Password",
+        "MODIFY_PERSON_INFO": "Modifying Personal Information",
+        "CONFIG_SETTING": "Configuration Settings"
+    },
+    "TABLE": {
+        "NO_DATA": "No data.",
+        "TOTAL_CNT": "total",
+        "SELECTED_CNT": "selected",
+        "UNIT": {
+            "EA": "ea"
+        }
+    }
+}
