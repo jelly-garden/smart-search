@@ -22,7 +22,7 @@ export interface Menu {
 }
 
 const SearchVehicleMenu: Menu = {
-    name: "차량검색",
+    name: "차번 통합검색",
     code: MENU_SEARCH_VEHICLE,
     icon: <AiFillCar />,
     path: "/search-vehicle",
@@ -40,7 +40,7 @@ const SearchVehicleMenu: Menu = {
 };
 
 const SearchPathMenu: Menu = {
-    name: "경로검색",
+    name: "차량 경로검색",
     code: MENU_SEARCH_PATH,
     icon: <MdRoute />,
     path: "/search-path",
