@@ -3,7 +3,12 @@
 @import "~react-tabulator/lib/css/tabulator_semanticui.min.css";
 
 /* react-pro-sidebar */
-.pro-sidebar .pro-sidebar-inner .pro-menu {
+.pro-sidebar.fixed,
+.pro-sidebar.fixed.collapsed {
+    width: 80px !important;
+    min-width: 80px !important;
+}
+.pro-sidebar.fixed .pro-sidebar-inner .pro-menu {
     padding: 0;
     .pro-menu-item {
         &.active {

@@ -16,7 +16,7 @@ export const Layout = (): JSX.Element => {
     const storedInitData = useAppSelector((state) => state.initData) as InitDataState;
     const { authMenus } = storedInitData;
 
-    const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
+    const [collapsed, setCollapsed] = useState<boolean>(false);
 
     const defaultPath = useMemo((): string => {
         if (authMenus.length > 0) {
@@ -29,7 +29,7 @@ export const Layout = (): JSX.Element => {
         <StyledLayoutDiv>
             {process.env.REACT_APP_SIDE_BAR === "true" && (
                 <Aside>
-                    <ProSideBar isCollapsed={isCollapsed} />
+                    <ProSideBar collapsed={collapsed} />
                 </Aside>
             )}
             <ContentLayout>
@@ -37,7 +37,7 @@ export const Layout = (): JSX.Element => {
                     <Header>
                         <StyledHeaderDivWrap>
                             {process.env.REACT_APP_COLLAPSED === "true" && (
-                                <FaBars onClick={() => setIsCollapsed(!isCollapsed)} />
+                                <FaBars onClick={() => setCollapsed(!collapsed)} />
                             )}
                             <Breadcrumb />
                         </StyledHeaderDivWrap>

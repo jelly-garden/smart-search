@@ -10,6 +10,7 @@ declare namespace NodeJS {
         REACT_APP_SIDE_BAR: string;
         REACT_APP_SIDE_BAR_HEADER: string;
         REACT_APP_SIDE_BAR_FOOTER: string;
+        REACT_APP_SIDE_BAR_FIXED: string;
         REACT_APP_COLLAPSED: string;
         REACT_APP_TRANSLATE: string;
         REACT_APP_USER_PROFILE: string;

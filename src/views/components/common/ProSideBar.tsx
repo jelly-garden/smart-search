@@ -26,14 +26,14 @@ import { Menu } from "./MenuConstant";
 
 /**
  * @typedef ProSideBarProps
- * @prop {boolean} isCollapsed Side Bar 펼침 여부
+ * @prop {boolean} collapsed Side Bar 펼침 여부
  */
 interface ProSideBarProps {
-    isCollapsed: boolean;
+    collapsed: boolean;
 }
 
 export const ProSideBar = (props: ProSideBarProps): JSX.Element => {
-    const { isCollapsed } = props;
+    const { collapsed } = props;
 
     const dispatch = useAppDispatch();
 
@@ -43,16 +43,7 @@ export const ProSideBar = (props: ProSideBarProps): JSX.Element => {
     const storedInitData = useAppSelector((state) => state.initData) as InitDataState;
     const { authMenus } = storedInitData;
 
-    const [collapsed, setCollapsed] = useState<boolean>(isCollapsed);
     const [currentActiveAppPath, setCurrentActiveAppPath] = useState(activeAppPath ? activeAppPath : "/");
-
-    /**
-     * @private
-     * @description [useEffect hooks] 사이드바 여닫기 처리
-     */
-    useEffect(() => {
-        setCollapsed(isCollapsed);
-    }, [dispatch, isCollapsed]);
 
     /**
      * @private
@@ -88,7 +79,12 @@ export const ProSideBar = (props: ProSideBarProps): JSX.Element => {
     );
 
     return (
-        <ProSidebar collapsed={collapsed} width={80} collapsedWidth={80}>
+        <ProSidebar
+            collapsed={collapsed}
+            width={200}
+            collapsedWidth={60}
+            className={process.env.REACT_APP_SIDE_BAR_FIXED === "true" ? "fixed" : ""}
+        >
             {process.env.REACT_APP_SIDE_BAR_HEADER === "true" && (
                 <SidebarHeader>
                     <Link to={""}>
