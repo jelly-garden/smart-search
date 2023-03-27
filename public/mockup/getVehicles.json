@@ -1,0 +1,27 @@
+{
+    "code": 200,
+    "message": "OK",
+    "responseTime": "2019-10-22 17:37:39",
+    "response": {
+        "results": [
+            {
+                "thumbnail": "data:image/svg+xml;base64,PD94bWwgdmVyc2...",
+                "차량번호": "12서 1234",
+                "최근발생일": "2023-03-02 13:30",
+                "data_count": 2
+            },
+            {
+                "thumbnail": "data:image/svg+xml;base64,PD94bWwgdmVyc2...",
+                "차량번호": "19나 1234",
+                "최근발생일": "2023-03-01 12:00",
+                "data_count": 1
+            },
+            {
+                "thumbnail": "data:image/svg+xml;base64,PD94bWwgdmVyc2...",
+                "차량번호": "15다 1234",
+                "최근발생일": "2023-03-01 12:00",
+                "data_count": 5
+            }
+        ]
+    }
+}

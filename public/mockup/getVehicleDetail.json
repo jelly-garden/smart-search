@@ -1,0 +1,31 @@
+{
+    "code": 200,
+    "message": "OK",
+    "responseTime": "2019-10-22 17:37:39",
+    "response": {
+        "results": [
+            {
+                "thumbnail": "data:image/svg+xml;base64,PD94bWwgdmVyc2...",
+                "cctv 아이디": "cctv_1",
+                "cctv 이름": "camera-01",
+                "최근발생일": "2023-03-02 13:30",
+                "총 발생횟수": 8,
+                "coordinates": [
+                    126.8617939375,
+                    36.78890125
+                ]
+            },
+            {
+                "thumbnail": "data:image/svg+xml;base64,PD94bWwgdmVyc2...",
+                "cctv 아이디": "cctv_2",
+                "cctv 이름": "camera-02",
+                "최근발생일": "2023-03-02 13:30",
+                "총 발생횟수": 15,
+                "coordinates": [
+                    126.85951,
+                    36.78971
+                ]
+            }
+        ]
+    }
+}
