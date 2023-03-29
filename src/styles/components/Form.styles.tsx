@@ -6,22 +6,25 @@ import styled from "styled-components";
  */
 export const StyledFormLabel = styled(FormLabel)`
     display: inline-block;
-    width: 100px;
-    line-height: 24px;
+    width: 60px;
+    line-height: 32px;
     vertical-align: top;
     margin: 0 !important;
-    font-size: 12px;
+    font-size: 14px;
 `;
 export const StyledFormFieldWrap = styled.div`
     display: inline-block;
-    width: calc(100% - 108px);
-    line-height: 24px;
+    width: calc(100% - 68px);
+    line-height: 32px;
     vertical-align: top;
     margin-left: 8px;
     justify-content: space-between;
 `;
 export const StyledFormErrorMessage = styled(FormErrorMessage)`
-    margin-bottom: -8px !important;
+    margin-top: 0;
+    margin-bottom: -16px;
+    font-size: 10px;
+    line-height: 16px;
 `;
 export const StyledFormTextareaErrorMessage = styled(StyledFormErrorMessage)`
     margin-top: -2px !important;

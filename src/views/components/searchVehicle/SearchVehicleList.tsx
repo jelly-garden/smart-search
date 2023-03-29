@@ -1,8 +1,22 @@
 import React, { useCallback, useEffect, useState } from "react";
 
 import axios, { AxiosResponse } from "axios";
+import styled from "styled-components";
 
 import { GetVehiclesResponse, GetVehiclesResult } from "../../../services/api/mockup/MockupInterface";
+import {
+    StyledContent,
+    StyledContentWrap,
+    StyledImage,
+    StyledImageWrap,
+    StyledItemWrap,
+    StyledLabel,
+    StyledLabelWrap,
+    StyledLi,
+    StyledText,
+    StyledTextWrap,
+    StyledUl,
+} from "../../../styles/components/List.styles";
 
 import { SearchVehicleCondition } from "./SearchVehicle";
 
@@ -48,12 +62,48 @@ export const SearchVehicleList = (props: SearchVehicleListProps) => {
     }, [getVehicles, searchVehicleCondition]);
 
     return (
-        <div>
-            <ul>
+        <StyledWrap>
+            <StyledUl>
                 {vehicles.map((vehicle) => (
-                    <li onClick={() => selectVehicle(vehicle)}>{vehicle.차량번호}</li>
+                    <StyledLi key={vehicle.차량번호} onClick={() => selectVehicle(vehicle)}>
+                        <StyledItemWrap>
+                            <StyledImageWrap>
+                                <StyledImage alt="image" src={vehicle.thumbnail} />
+                            </StyledImageWrap>
+                            <StyledContentWrap>
+                                <StyledContent>
+                                    <StyledLabelWrap>
+                                        <StyledLabel>차량번호</StyledLabel>
+                                    </StyledLabelWrap>
+                                    <StyledTextWrap>
+                                        <StyledText>{vehicle.차량번호}</StyledText>
+                                    </StyledTextWrap>
+                                    <StyledLabelWrap>
+                                        <StyledLabel>최근발생일</StyledLabel>
+                                    </StyledLabelWrap>
+                                    <StyledTextWrap>
+                                        <StyledText>{vehicle.최근발생일}</StyledText>
+                                    </StyledTextWrap>
+                                    <StyledLabelWrap>
+                                        <StyledLabel>총 발생 횟수</StyledLabel>
+                                    </StyledLabelWrap>
+                                    <StyledTextWrap>
+                                        <StyledText>{vehicle.data_count}</StyledText>
+                                    </StyledTextWrap>
+                                </StyledContent>
+                            </StyledContentWrap>
+                        </StyledItemWrap>
+                    </StyledLi>
                 ))}
-            </ul>
-        </div>
+            </StyledUl>
+        </StyledWrap>
     );
 };
+
+/**
+ * styled-components 및 styled interface 정의 영역
+ */
+const StyledWrap = styled.div`
+    height: calc(100% - 212px);
+    padding: 0 8px;
+`;

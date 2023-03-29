@@ -25,14 +25,19 @@ export const SearchVehicle = () => {
             <StyledLeftWrap>
                 {!selectedVehicle && (
                     <>
-                        <SearchVehicleForm />
+                        <SearchVehicleForm onSearch={setSearchVehicleCondition} />
                         <SearchVehicleList
                             searchVehicleCondition={searchVehicleCondition}
                             selectVehicle={setSelectedVehicle}
                         />
                     </>
                 )}
-                {selectedVehicle && <SearchVehicleDetail selectedVehicle={selectedVehicle} />}
+                {selectedVehicle && (
+                    <SearchVehicleDetail
+                        selectedVehicle={selectedVehicle}
+                        resetSelectedVehicle={() => setSelectedVehicle(undefined)}
+                    />
+                )}
             </StyledLeftWrap>
             <StyledRightWrap>
                 <SearchVehicleMap />
@@ -49,9 +54,9 @@ const StyledWrap = styled(Stack)`
 `;
 const StyledLeftWrap = styled.div`
     position: relative;
-    width: 30%;
+    width: 500px;
 `;
 const StyledRightWrap = styled.div`
     position: relative;
-    width: 70%;
+    width: calc(100% - 500px);
 `;
