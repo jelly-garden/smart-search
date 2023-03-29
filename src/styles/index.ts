@@ -14,3 +14,4 @@ export * from "./components/Gis.styles";
 export * from "./components/Layout.styles";
 export * from "./components/Table.styles";
 export * from "./components/Dialog.styles";
+export * from "./components/List.styles";

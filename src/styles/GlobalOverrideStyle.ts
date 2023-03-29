@@ -10,7 +10,6 @@ export const GlobalOverrideStyle = createGlobalStyle`
     .pro-sidebar:not(.collapsed) .popper-inner {
         display: none;
     }
-
     .pro-sidebar-inner {
         background: ${({ theme }) => theme.proSideBarBgColor} !important;
         color: ${({ theme }) => theme.proSideBarColor};
@@ -81,6 +80,44 @@ export const GlobalOverrideStyle = createGlobalStyle`
             }
         }
     }
+    .pro-sidebar.fixed,
+    .pro-sidebar.fixed.collapsed {
+        width: 80px !important;
+        min-width: 80px !important;
+    }
+    .pro-sidebar.fixed .pro-sidebar-inner .pro-menu {
+        padding: 0;
+        .pro-menu-item {
+            &.active {
+                background-color: #3080d0;
+            }
+            .pro-inner-item {
+                display: block;
+                padding: 15px 0 !important;
+                .pro-icon-wrapper {
+                    margin: 0;
+                    width: auto;
+                    min-width: auto;
+                    height: auto;
+                    display: block;
+                    .pro-icon > * {
+                        font-size: 30px;
+                    }
+                }
+                .pro-item-content {
+                    display: block;
+                    text-align: center;
+                    font-size: 14px;
+                    line-height: 20px;
+                    white-space: normal;
+                    word-break: keep-all;
+                    word-wrap: break-word;
+                    padding-top: 4px;
+                }
+            }
+        }
+    }
+
 
     /* tabulator data table override  */
     .tabulator {

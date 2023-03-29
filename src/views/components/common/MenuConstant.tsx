@@ -5,10 +5,10 @@ import { AiFillCar } from "react-icons/ai";
 import { MdRoute } from "react-icons/md";
 import { RouteComponentProps } from "react-router-dom";
 
-import { MENU_CODE, MENU_SEARCH_PATH, MENU_SEARCH_VEHICLE } from "../../../services/interfaces";
-import { SearchPathPage, SearchVehiclePage } from "../../pages";
+import { MENU_CODE, MENU_SEARCH_PATH, MENU_SEARCH_CAR_NUMBER } from "../../../services/interfaces";
+import { SearchPathPage, SearchCarNumberPage } from "../../pages";
+import { SearchCarNumber } from "../searchCarNumber";
 import { SearchPath } from "../searchPath";
-import { SearchVehicle } from "../searchVehicle";
 
 export interface Menu {
     name: string;
@@ -21,18 +21,18 @@ export interface Menu {
     isLeafMenu?: boolean;
 }
 
-const SearchVehicleMenu: Menu = {
+const SearchCarNumberMenu: Menu = {
     name: "차번 통합검색",
-    code: MENU_SEARCH_VEHICLE,
+    code: MENU_SEARCH_CAR_NUMBER,
     icon: <AiFillCar />,
-    path: "/search-vehicle",
-    component: SearchVehiclePage,
+    path: "/search-car-number",
+    component: SearchCarNumberPage,
     children: [
         {
             name: "",
             code: "",
-            path: "/search-vehicle",
-            component: SearchVehicle,
+            path: "/search-car-number",
+            component: SearchCarNumber,
             isLeafMenu: true,
         },
     ],
@@ -57,4 +57,4 @@ const SearchPathMenu: Menu = {
     hideChildren: true,
 };
 
-export const MENUS: Menu[] = [SearchVehicleMenu, SearchPathMenu];
+export const MENUS: Menu[] = [SearchCarNumberMenu, SearchPathMenu];

@@ -6,35 +6,34 @@ import { Formik, Form, Field, FieldProps } from "formik";
 import styled from "styled-components";
 import * as Yup from "Yup";
 
-import { StyledFormErrorMessage, StyledFormFieldWrap, StyledFormLabel, StyledMdButton } from "../../../styles";
-
-import { SearchVehicleCondition } from "./SearchVehicle";
+import { StyledFormErrorMessage, StyledFormFieldWrap, StyledFormLabel, StyledMdButton } from "../../../../styles";
+import { SearchCarNumberCondition } from "../SearchCarNumber";
 
 /**
  * component interface 정의 영역
  */
-interface SearchVehicleFormProps {
-    onSearch: (condition: SearchVehicleCondition) => void;
+interface SearchCarNumberFormProps {
+    onSearch: (condition: SearchCarNumberCondition) => void;
 }
 
-export interface SearchVehicleFormValues {
-    차량번호: string;
-    시작날짜: string;
-    시작시간: string;
-    종료날짜: string;
-    종료시간: string;
+export interface SearchCarNumberFormValues {
+    car_num: string;
+    start_date: string;
+    start_time: string;
+    end_date: string;
+    end_time: string;
 }
 
-export const SearchVehicleForm = (props: SearchVehicleFormProps) => {
+export const SearchCarNumberForm = (props: SearchCarNumberFormProps) => {
     const { onSearch } = props;
 
     const initialValues = useMemo(
-        (): SearchVehicleFormValues => ({
-            차량번호: "1234",
-            시작날짜: "2023-03-20",
-            시작시간: "14:00",
-            종료날짜: "2023-03-22",
-            종료시간: "16:51",
+        (): SearchCarNumberFormValues => ({
+            car_num: "1234",
+            start_date: "2023-03-20",
+            start_time: "14:00",
+            end_date: "2023-03-22",
+            end_time: "16:51",
         }),
         []
     );
@@ -42,11 +41,11 @@ export const SearchVehicleForm = (props: SearchVehicleFormProps) => {
     const validationSchema = useMemo(
         (): Yup.ObjectSchema<any> =>
             Yup.object({
-                차량번호: Yup.string().required("필수 입력값입니다."),
-                시작날짜: Yup.string().required("필수 입력값입니다."),
-                시작시간: Yup.string().required("필수 입력값입니다."),
-                종료날짜: Yup.string().required("필수 입력값입니다."),
-                종료시간: Yup.string().required("필수 입력값입니다."),
+                car_num: Yup.string().required("필수 입력값입니다."),
+                start_date: Yup.string().required("필수 입력값입니다."),
+                start_time: Yup.string().required("필수 입력값입니다."),
+                end_date: Yup.string().required("필수 입력값입니다."),
+                end_time: Yup.string().required("필수 입력값입니다."),
             }),
         []
     );
@@ -58,12 +57,12 @@ export const SearchVehicleForm = (props: SearchVehicleFormProps) => {
      * @return {void}
      */
     const handleSubmit = useCallback(
-        (values: SearchVehicleFormValues) => {
-            console.log(values);
+        (values: SearchCarNumberFormValues) => {
             onSearch({
-                차량번호: values.차량번호,
-                시작날짜: `${values.시작날짜} ${values.시작시간}`,
-                종료날짜: `${values.종료날짜} ${values.종료시간}`,
+                car_num: values.car_num,
+                full_num: true,
+                start_date: `${values.start_date} ${values.start_time}`,
+                end_date: `${values.end_date} ${values.end_time}`,
             });
         },
         [onSearch]
@@ -80,7 +79,7 @@ export const SearchVehicleForm = (props: SearchVehicleFormProps) => {
                 {() => (
                     <Form>
                         <Stack flexDirection={"column"} gap={"16px"}>
-                            <Field name={"차량번호"}>
+                            <Field name={"car_num"}>
                                 {({ field, meta }: FieldProps) => (
                                     <FormControl size={"md"} invalid={meta.touched && !!meta.error}>
                                         <StyledFormLabel htmlFor={field.name}>차량번호</StyledFormLabel>
@@ -95,7 +94,7 @@ export const SearchVehicleForm = (props: SearchVehicleFormProps) => {
                                 <StyledFormLabel>시작날짜</StyledFormLabel>
                                 <StyledFormFieldWrap>
                                     <Stack>
-                                        <Field name={"시작날짜"}>
+                                        <Field name={"start_date"}>
                                             {({ field, meta }: FieldProps) => (
                                                 <FormControl
                                                     size={"md"}
@@ -107,7 +106,7 @@ export const SearchVehicleForm = (props: SearchVehicleFormProps) => {
                                                 </FormControl>
                                             )}
                                         </Field>
-                                        <Field name={"시작시간"}>
+                                        <Field name={"start_time"}>
                                             {({ field, meta }: FieldProps) => (
                                                 <FormControl
                                                     size={"md"}
@@ -126,7 +125,7 @@ export const SearchVehicleForm = (props: SearchVehicleFormProps) => {
                                 <StyledFormLabel>종료날짜</StyledFormLabel>
                                 <StyledFormFieldWrap>
                                     <Stack>
-                                        <Field name={"종료날짜"}>
+                                        <Field name={"end_date"}>
                                             {({ field, meta }: FieldProps) => (
                                                 <FormControl
                                                     size={"md"}
@@ -138,7 +137,7 @@ export const SearchVehicleForm = (props: SearchVehicleFormProps) => {
                                                 </FormControl>
                                             )}
                                         </Field>
-                                        <Field name={"종료시간"}>
+                                        <Field name={"end_time"}>
                                             {({ field, meta }: FieldProps) => (
                                                 <FormControl
                                                     size={"md"}

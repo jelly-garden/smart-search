@@ -2,7 +2,7 @@ import React from "react";
 
 import styled from "styled-components";
 
-export const SearchVehicleMap = () => {
+export const SearchCarNumberMap = () => {
     return <StyledWrap></StyledWrap>;
 };
 

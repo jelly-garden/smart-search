@@ -93,9 +93,11 @@ const config: Configuration = {
         new CopyPlugin({
             patterns: [
                 { from: "public/favicon.ico", to: "favicon.ico", noErrorOnMissing: true },
-                { from: "public/mockup/getVehicles.json", to: "getVehicles.json", noErrorOnMissing: true },
-                { from: "public/mockup/getVehicleDetail.json", to: "getVehicleDetail.json", noErrorOnMissing: true },
-                { from: "public/mockup/getVehicleDetailThumbnails.json", to: "getVehicleDetailThumbnails.json", noErrorOnMissing: true },
+                { from: "public/mockup/getCountsByCarNumber.json", to: "getCountsByCarNumber.json", noErrorOnMissing: true },
+                { from: "public/mockup/getDeviceLocations.json", to: "getDeviceLocations.json", noErrorOnMissing: true },
+                { from: "public/mockup/getCountsByDevice.json", to: "getCountsByDevice.json", noErrorOnMissing: true },
+                { from: "public/mockup/getLprDetails.json", to: "getLprDetails.json", noErrorOnMissing: true },
+                { from: "public/mockup/getDeviceImage.json", to: "getDeviceImage.json", noErrorOnMissing: true },
             ],
         }),
         new webpack.ProvidePlugin({

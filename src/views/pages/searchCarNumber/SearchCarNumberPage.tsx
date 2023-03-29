@@ -8,7 +8,7 @@ import { StyledPageDiv } from "../../../styles";
 import { LoadingSpinner } from "../../components/common";
 import { SubMenuRoutes } from "../common/SubMenuRoutes";
 
-export const SearchVehiclePage = ({ match }: RouteComponentProps): JSX.Element => {
+export const SearchCarNumberPage = ({ match }: RouteComponentProps): JSX.Element => {
     const storedCommon = useAppSelector((state) => state.common) as CommonState;
     const { pageLoading } = storedCommon;
 

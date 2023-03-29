@@ -6,12 +6,12 @@ import { MdRoute } from "react-icons/md";
 import styled from "styled-components";
 
 import {
-    GetVehicleDetailResponse,
-    GetVehicleDetailResult,
-    GetVehiclesResult,
-} from "../../../services/api/mockup/MockupInterface";
-import { StyledIconButton } from "../../../styles";
+    GetCountsByDeviceParams,
+    GetCountsByDeviceResponse,
+    GetCountsByDeviceResult,
+} from "../../../../services/api/mockup/MockupInterface";
 import {
+    StyledIconButton,
     StyledActionWrap,
     StyledContent,
     StyledContentWrap,
@@ -24,65 +24,72 @@ import {
     StyledText,
     StyledTextWrap,
     StyledUl,
-} from "../../../styles/components/List.styles";
+} from "../../../../styles";
+import { SearchCarNumberCondition } from "../SearchCarNumber";
 
 /**
  * component interface 정의 영역
  */
-interface SearchVehicleDetailProps {
-    selectedVehicle: GetVehiclesResult;
-    resetSelectedVehicle: () => void;
+interface SearchCarNumberDetailProps {
+    searchCarNumberCondition: SearchCarNumberCondition;
+    selectedCarNumber: string;
+    selectDeviceSerial: (dev_serial: number) => void;
+    onBackButtonClick: () => void;
 }
 
-export const SearchVehicleDetail = (props: SearchVehicleDetailProps) => {
-    const { selectedVehicle, resetSelectedVehicle } = props;
+export const SearchCarNumberDetail = (props: SearchCarNumberDetailProps) => {
+    const { searchCarNumberCondition, selectedCarNumber, selectDeviceSerial, onBackButtonClick } = props;
 
-    const [vehicleDetail, setVehicleDetail] = useState<GetVehicleDetailResult[]>([]);
+    const [countsByDevice, setCountsByDevice] = useState<GetCountsByDeviceResult[]>([]);
 
     /**
-     * @name getVehicleDetail
+     * @name getCountsByDevice
      * @async
      * @function
      * @description 차번 통합 검색 상세
-     * @return {Promise<GetVehiclesResponse>}
+     * @return {Promise<GetCountsByDeviceResponse>}
      */
-    const getVehicleDetail = useCallback(async (): Promise<GetVehicleDetailResponse> => {
-        const res = (await axios.get("/getVehicleDetail.json")) as AxiosResponse;
-        return new Promise((resolve, reject) => {
-            if (res?.data.code === 200) {
-                resolve(res.data as GetVehicleDetailResponse);
-            } else {
-                reject(res?.data.message);
-            }
-        });
-    }, []);
+    const getCountsByDevice = useCallback(
+        async (params: GetCountsByDeviceParams): Promise<GetCountsByDeviceResponse> => {
+            console.log(params);
+            const res = (await axios.get("/getCountsByDevice.json")) as AxiosResponse;
+            return new Promise((resolve, reject) => {
+                if (res?.data.code === 200) {
+                    resolve(res.data as GetCountsByDeviceResponse);
+                } else {
+                    reject(res?.data.message);
+                }
+            });
+        },
+        []
+    );
 
     useEffect(() => {
-        if (selectedVehicle) {
-            console.log(selectedVehicle);
-            getVehicleDetail().then((getVehicleDetailResponse) => {
-                console.log(getVehicleDetailResponse);
-                setVehicleDetail(getVehicleDetailResponse.response.results);
-            });
-        }
-    }, [getVehicleDetail, selectedVehicle]);
+        const params: GetCountsByDeviceParams = {
+            car_num: selectedCarNumber,
+            start_date: searchCarNumberCondition.start_date,
+            end_date: searchCarNumberCondition.end_date,
+        };
+        getCountsByDevice(params).then((getCountsByDeviceResponse) => {
+            setCountsByDevice(getCountsByDeviceResponse.results.list);
+        });
+    }, [getCountsByDevice, searchCarNumberCondition, selectedCarNumber]);
 
     return (
-        <>
+        <StyledWrap>
             <StyledHeader>
-                <StyledIconButton size={"sm"} variant={"ghost"} onClick={resetSelectedVehicle}>
+                <StyledIconButton size={"sm"} variant={"ghost"} onClick={onBackButtonClick}>
                     <AiOutlineLeft size="80%" />
                 </StyledIconButton>
-                {/*<StyledHeaderSvg size={"20px"} onClick={resetSelectedVehicle} />*/}
-                <StyledHeaderSpan>{selectedVehicle.차량번호}</StyledHeaderSpan>
+                <StyledHeaderSpan>{selectedCarNumber}</StyledHeaderSpan>
             </StyledHeader>
-            <StyledWrap>
+            <StyledList>
                 <StyledUl>
-                    {vehicleDetail.map((item) => (
-                        <StyledLi key={item["cctv 아이디"]}>
+                    {countsByDevice.map((count, index) => (
+                        <StyledLi key={index} onClick={() => selectDeviceSerial(count.dev_serial)}>
                             <StyledItemWrap>
                                 <StyledImageWrap>
-                                    <StyledImage alt="image" src={item.thumbnail} />
+                                    <StyledImage alt="image" src={count.image1} />
                                 </StyledImageWrap>
                                 <StyledContentWrap>
                                     <StyledContent>
@@ -90,25 +97,25 @@ export const SearchVehicleDetail = (props: SearchVehicleDetailProps) => {
                                             <StyledLabel>cctv 아이디</StyledLabel>
                                         </StyledLabelWrap>
                                         <StyledTextWrap>
-                                            <StyledText>{item["cctv 아이디"]}</StyledText>
+                                            <StyledText>{count.dev_serial}</StyledText>
                                         </StyledTextWrap>
                                         <StyledLabelWrap>
                                             <StyledLabel>cctv 이름</StyledLabel>
                                         </StyledLabelWrap>
                                         <StyledTextWrap>
-                                            <StyledText>{item["cctv 이름"]}</StyledText>
+                                            <StyledText>{count.dev_name}</StyledText>
                                         </StyledTextWrap>
                                         <StyledLabelWrap>
                                             <StyledLabel>최근발생일</StyledLabel>
                                         </StyledLabelWrap>
                                         <StyledTextWrap>
-                                            <StyledText>{item.최근발생일}</StyledText>
+                                            <StyledText>{count.recent_date}</StyledText>
                                         </StyledTextWrap>
                                         <StyledLabelWrap>
                                             <StyledLabel>총 발생 횟수</StyledLabel>
                                         </StyledLabelWrap>
                                         <StyledTextWrap>
-                                            <StyledText>{item["총 발생횟수"]}</StyledText>
+                                            <StyledText>{count.count}</StyledText>
                                         </StyledTextWrap>
                                     </StyledContent>
                                 </StyledContentWrap>
@@ -121,8 +128,8 @@ export const SearchVehicleDetail = (props: SearchVehicleDetailProps) => {
                         </StyledLi>
                     ))}
                 </StyledUl>
-            </StyledWrap>
-        </>
+            </StyledList>
+        </StyledWrap>
     );
 };
 
@@ -130,16 +137,20 @@ export const SearchVehicleDetail = (props: SearchVehicleDetailProps) => {
  * styled-components 및 styled interface 정의 영역
  */
 const StyledWrap = styled.div`
-    height: calc(100% - 212px);
-    padding: 0 8px;
+    height: 100%;
 `;
 const StyledHeader = styled.div`
     display: flex;
     align-items: center;
-    padding: 16px;
+    padding: 14px 16px;
     background: ${({ theme }) => theme.contentHeaderBgColor};
     font-weight: 600;
 `;
 const StyledHeaderSpan = styled.span`
     margin-left: 8px;
+`;
+const StyledList = styled.div`
+    height: calc(100% - 52px);
+    padding: 0 8px;
+    overflow-y: auto;
 `;

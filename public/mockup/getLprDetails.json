@@ -1,0 +1,33 @@
+{
+    "success": true,
+    "code": 200,
+    "message": "Success",
+    "results": {
+        "list": [
+            {
+                "dev_name": "수출의다리",
+                "location": {
+                    "longitude": "128.3234",
+                    "latitude": "37.12343"
+                },
+                "date": "2023-03-29 03:17:01.232",
+                "srv_serial": 101,
+                "dev_serial": 100002,
+                "dch_ch": 0,
+                "image1": "D:/vfslpr/b3/000186b3/01/202104/20/10/20210420_103117_101293_T1"
+            },
+            {
+                "dev_name": "수출의다리",
+                "location": {
+                    "longitude": "128.3234",
+                    "latitude": "37.12343"
+                },
+                "date": "2023-03-29 03:17:01.232",
+                "srv_serial": 101,
+                "dev_serial": 100002,
+                "dch_ch": 0,
+                "image1": "D:/vfslpr/b3/000186b3/01/202104/20/10/20210420_103117_101293_T1"
+            }
+        ]
+    }
+}

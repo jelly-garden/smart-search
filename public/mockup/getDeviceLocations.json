@@ -1,0 +1,25 @@
+{
+    "success": true,
+    "code": 200,
+    "message": "Success",
+    "results": {
+        "list": [
+            {
+                "dev_name": "수출의다리",
+                "location": {
+                    "longitude": "128.3234",
+                    "latitude": "37.12343"
+                },
+                "dev_serial": 100002
+            },
+            {
+                "dev_name": "수출의다리 하단",
+                "location": {
+                    "longitude": "128.3243",
+                    "latitude": "37.12333"
+                },
+                "dev_serial": 100003
+            }
+        ]
+    }
+}
