@@ -8,6 +8,8 @@ declare module "styled-components" {
         contentColor: string;
         contentBgColor: string;
         contentBorderColor: string;
+        contentHoverColor: string;
+        contentHeaderBgColor: string;
         proSideBarColor: string;
         proSideBarActiveColor: string;
         proSideBarBgColor: string;
@@ -19,14 +21,13 @@ declare module "styled-components" {
         layoutHeaderColor: string;
         layoutHeaderBgColor: string;
         layoutHeaderBorderColor: string;
-        buttonColor: string;
-        buttonBgColor: string;
-        buttonBorderColor: string;
-        buttonHoverColor: string;
+        iconButtonColor: string;
+        iconButtonHoverBgColor: string;
         inputColor: string;
         inputBgColor: string;
         inputBorderColor: string;
         uploadImageBorder: string;
         disabledTextBgColor: string;
+        imageBgColor: string;
     }
 }

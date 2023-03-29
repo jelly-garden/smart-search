@@ -25,12 +25,12 @@ const StyledDropdownButton = styled.div<{ isDropdownOpen: boolean }>`
     font-size: 12px;
     color: ${({ theme }) => theme.layoutHeaderColor};
     &:hover {
-        background-color: ${({ theme }) => theme.buttonHoverColor};
+        background-color: ${({ theme }) => theme.iconButtonHoverBgColor};
     }
     ${(props) =>
         props.isDropdownOpen &&
         css`
-            background-color: ${({ theme }) => theme.buttonHoverColor};
+            background-color: ${({ theme }) => theme.iconButtonHoverBgColor};
         `}
 `;
 
