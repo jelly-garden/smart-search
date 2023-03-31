@@ -1,16 +1,10 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React from "react";
 
-import axios, { AxiosResponse } from "axios";
 import moment from "moment";
 import { MdClose } from "react-icons/md";
 import styled from "styled-components";
 
-import {
-    GetLprDetailsParams,
-    GetLprDetailsResponse,
-    GetLprDetailsResult,
-} from "../../../../services/api/mockup/MockupInterface";
-import { SORTING_DESC } from "../../../../services/interfaces";
+import { GetLprDetailsResult } from "../../../../services/api/mockup/MockupInterface";
 import {
     StyledCard,
     StyledCardBody,
@@ -20,67 +14,25 @@ import {
     StyledCardUl,
     StyledIconButton,
 } from "../../../../styles";
-import { Device, SearchCarNumberCondition } from "../SearchCarNumber";
+import { Device } from "../SearchCarNumber";
 
 /**
  * component interface 정의 영역
  */
 interface SearchCarNumberThumbnailsProps {
-    searchCarNumberCondition: SearchCarNumberCondition;
-    selectedCarNumber: string;
+    lprDetails: GetLprDetailsResult[];
     selectedDevice: Device;
-    onCloseThumbnailsDrawerButtonClick: () => void;
+    onCloseDrawerButtonClick: () => void;
 }
 
 export const SearchCarNumberThumbnails = (props: SearchCarNumberThumbnailsProps) => {
-    const { searchCarNumberCondition, selectedCarNumber, selectedDevice, onCloseThumbnailsDrawerButtonClick } = props;
-
-    const [lprDetails, setLprDetails] = useState<GetLprDetailsResult[]>([]);
-
-    /**
-     * @name getLprDetails
-     * @async
-     * @function
-     * @description 차번 통합 검색 상세
-     * @return {Promise<GetLprDetailsResponse>}
-     */
-    const getLprDetails = useCallback(async (params: GetLprDetailsParams): Promise<GetLprDetailsResponse> => {
-        params;
-        const res = (await axios.get("/getLprDetails.json")) as AxiosResponse;
-        return new Promise((resolve, reject) => {
-            if (res?.data.code === 200) {
-                resolve(res.data as GetLprDetailsResponse);
-            } else {
-                reject(res?.data.message);
-            }
-        });
-    }, []);
-
-    useEffect(() => {
-        const params: GetLprDetailsParams = {
-            car_num: selectedCarNumber,
-            dev_serial: selectedDevice.dev_serial,
-            start_date: searchCarNumberCondition.start_date,
-            end_date: searchCarNumberCondition.end_date,
-            sorting: SORTING_DESC,
-        };
-        getLprDetails(params).then((getLprDetailsResponse) => {
-            setLprDetails(getLprDetailsResponse.results.list);
-        });
-    }, [
-        getLprDetails,
-        searchCarNumberCondition,
-        searchCarNumberCondition.end_date,
-        searchCarNumberCondition.start_date,
-        selectedCarNumber,
-        selectedDevice,
-    ]);
+    const { lprDetails, selectedDevice, onCloseDrawerButtonClick } = props;
 
     return (
         <StyledWrap>
             <StyledHeader>
                 <span>{selectedDevice.dev_name}</span>
-                <StyledIconButton size={"sm"} variant={"ghost"} onClick={onCloseThumbnailsDrawerButtonClick}>
+                <StyledIconButton size={"sm"} variant={"ghost"} onClick={onCloseDrawerButtonClick}>
                     <MdClose size="80%" />
                 </StyledIconButton>
             </StyledHeader>

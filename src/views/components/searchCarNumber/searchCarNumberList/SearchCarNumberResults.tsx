@@ -1,14 +1,9 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React from "react";
 
-import axios, { AxiosResponse } from "axios";
 import moment from "moment";
 import styled from "styled-components";
 
-import {
-    GetLprCountsParams,
-    GetLprCountsResponse,
-    GetLprCountsResult,
-} from "../../../../services/api/mockup/MockupInterface";
+import { GetLprCountsResult } from "../../../../services/api/mockup/MockupInterface";
 import {
     StyledListContent,
     StyledListContentWrap,
@@ -22,55 +17,17 @@ import {
     StyledListContentTextWrap,
     StyledListUl,
 } from "../../../../styles";
-import { SearchCarNumberCondition } from "../SearchCarNumber";
 
 /**
  * component interface 정의 영역
  */
 interface SearchCarNumberListProps {
-    searchCarNumberCondition?: SearchCarNumberCondition;
+    lprCounts: GetLprCountsResult[];
     selectCarNumber: (car_num: string) => void;
 }
 
 export const SearchCarNumberResults = (props: SearchCarNumberListProps) => {
-    const { searchCarNumberCondition, selectCarNumber } = props;
-
-    const [lprCounts, setLprCounts] = useState<GetLprCountsResult[]>([]);
-
-    /**
-     * @name getLprCounts
-     * @async
-     * @function
-     * @description 차번 통합 검색
-     * @return {Promise<GetLprCountsResponse>}
-     */
-    const getLprCounts = useCallback(async (params: GetLprCountsParams): Promise<GetLprCountsResponse> => {
-        params;
-        const res = (await axios.get("/getLprCounts.json")) as AxiosResponse;
-        return new Promise((resolve, reject) => {
-            if (res?.data.code === 200) {
-                resolve(res.data as GetLprCountsResponse);
-            } else {
-                reject(res?.data.message);
-            }
-        });
-    }, []);
-
-    useEffect(() => {
-        if (searchCarNumberCondition) {
-            const regex = new RegExp(/^(\d){4}$/);
-            const onlyNumber = regex.test(searchCarNumberCondition.car_num);
-            const params: GetLprCountsParams = {
-                car_num: searchCarNumberCondition.car_num,
-                full_num: onlyNumber,
-                start_date: searchCarNumberCondition.start_date,
-                end_date: searchCarNumberCondition.end_date,
-            };
-            getLprCounts(params).then((getLprCountsResponse) => {
-                setLprCounts(getLprCountsResponse.results.list);
-            });
-        }
-    }, [getLprCounts, searchCarNumberCondition]);
+    const { lprCounts, selectCarNumber } = props;
 
     return (
         <StyledWrap>

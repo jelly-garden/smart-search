@@ -17,6 +17,12 @@ interface SearchFormProps {
     onSubmit: (values: SearchFormValues) => void;
 }
 
+export interface SearchCondition {
+    car_num: string;
+    start_date: string;
+    end_date: string;
+}
+
 export interface SearchFormValues {
     car_num: string;
     start_date: string;

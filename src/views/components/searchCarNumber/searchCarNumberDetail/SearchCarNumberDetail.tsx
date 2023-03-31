@@ -1,17 +1,12 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback } from "react";
 
-import axios, { AxiosResponse } from "axios";
 import moment from "moment/moment";
 import { AiOutlineLeft } from "react-icons/ai";
 import { MdRoute } from "react-icons/md";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 
-import {
-    GetLprCountsByDeviceParams,
-    GetLprCountsByDeviceResponse,
-    GetLprCountsByDeviceResult,
-} from "../../../../services/api/mockup/MockupInterface";
+import { GetLprCountsByDeviceResult } from "../../../../services/api/mockup/MockupInterface";
 import {
     StyledIconButton,
     StyledListActionWrap,
@@ -27,13 +22,13 @@ import {
     StyledListContentTextWrap,
     StyledListUl,
 } from "../../../../styles";
-import { Device, SearchCarNumberCondition } from "../SearchCarNumber";
+import { Device } from "../SearchCarNumber";
 
 /**
  * component interface 정의 영역
  */
 interface SearchCarNumberDetailProps {
-    searchCarNumberCondition: SearchCarNumberCondition;
+    lprCountsByDevice: GetLprCountsByDeviceResult[];
     selectedCarNumber: string;
     selectedDevice?: Device;
     selectDevice: (device: Device) => void;
@@ -41,45 +36,9 @@ interface SearchCarNumberDetailProps {
 }
 
 export const SearchCarNumberDetail = (props: SearchCarNumberDetailProps) => {
-    const { searchCarNumberCondition, selectedCarNumber, selectedDevice, selectDevice, onBackButtonClick } = props;
+    const { lprCountsByDevice, selectedCarNumber, selectedDevice, selectDevice, onBackButtonClick } = props;
 
     const history = useHistory();
-
-    const [lprCountsByDevice, setLprCountsByDevice] = useState<GetLprCountsByDeviceResult[]>([]);
-
-    /**
-     * @name getLprCountsByDevice
-     * @async
-     * @function
-     * @description 차번 통합 검색 상세
-     * @return {Promise<GetLprCountsByDeviceResponse>}
-     */
-    const getLprCountsByDevice = useCallback(
-        async (params: GetLprCountsByDeviceParams): Promise<GetLprCountsByDeviceResponse> => {
-            params;
-            const res = (await axios.get("/getLprCountsByDevice.json")) as AxiosResponse;
-            return new Promise((resolve, reject) => {
-                if (res?.data.code === 200) {
-                    resolve(res.data as GetLprCountsByDeviceResponse);
-                } else {
-                    reject(res?.data.message);
-                }
-            });
-        },
-        []
-    );
-
-    useEffect(() => {
-        const params: GetLprCountsByDeviceParams = {
-            car_num: selectedCarNumber,
-            full_num: true,
-            start_date: searchCarNumberCondition.start_date,
-            end_date: searchCarNumberCondition.end_date,
-        };
-        getLprCountsByDevice(params).then((getLprCountsByDeviceResponse) => {
-            setLprCountsByDevice(getLprCountsByDeviceResponse.results.list);
-        });
-    }, [getLprCountsByDevice, searchCarNumberCondition, selectedCarNumber]);
 
     /**
      * @name handleListItemClick
@@ -107,7 +66,7 @@ export const SearchCarNumberDetail = (props: SearchCarNumberDetailProps) => {
     const handleRouteButtonClick = useCallback(
         (e: React.MouseEvent<HTMLButtonElement>, count: GetLprCountsByDeviceResult) => {
             e.stopPropagation();
-            history.push(`/search-path?recent_date=${count.recent_date}`);
+            history.push(`/search-path?car_num=${count.car_num}&recent_date=${count.recent_date}`);
         },
         [history]
     );

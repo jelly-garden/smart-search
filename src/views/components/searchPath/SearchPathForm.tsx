@@ -1,37 +1,35 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useCallback, useMemo } from "react";
+import React, { useState, useCallback, useMemo, useEffect } from "react";
 
 import * as Yup from "Yup";
 
-import { SearchForm, SearchFormValues } from "../common/SearchForm";
-
-import { SearchPathCondition } from "./SearchPath";
+import { SearchCondition, SearchForm, SearchFormValues } from "../common/SearchForm";
 
 /**
  * component interface 정의 영역
  */
 interface SearchPathFormProps {
-    onSearch: (condition: SearchPathCondition) => void;
+    newInitialValues?: SearchFormValues;
+    onSearch: (condition: SearchCondition) => void;
 }
 
 export const SearchPathForm = (props: SearchPathFormProps) => {
-    const { onSearch } = props;
+    const { newInitialValues, onSearch } = props;
 
-    const initialValues = useMemo(
-        (): SearchFormValues => ({
-            car_num: "1234",
-            start_date: "2023-03-20",
-            start_time: "14:00",
-            end_date: "2023-03-22",
-            end_time: "16:51",
-        }),
-        []
-    );
+    const [initialValues, setInitialValues] = useState<SearchFormValues>({
+        car_num: "",
+        start_date: "",
+        start_time: "",
+        end_date: "",
+        end_time: "",
+    });
 
     const validationSchema = useMemo(
         (): Yup.ObjectSchema<any> =>
             Yup.object({
-                car_num: Yup.string().required("필수 입력값입니다."),
+                car_num: Yup.string()
+                    .matches(/^\d{2,3}[가-힣]{1}\d{4}$/, "올바른 전체 차량번호를 입력하세요. (예: 12가1234)")
+                    .required("필수 입력값입니다."),
                 start_date: Yup.string().required("필수 입력값입니다."),
                 start_time: Yup.string().required("필수 입력값입니다."),
                 end_date: Yup.string().required("필수 입력값입니다."),
@@ -56,6 +54,12 @@ export const SearchPathForm = (props: SearchPathFormProps) => {
         },
         [onSearch]
     );
+
+    useEffect(() => {
+        if (newInitialValues) {
+            setInitialValues(newInitialValues);
+        }
+    }, [newInitialValues]);
 
     return <SearchForm initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit} />;
 };

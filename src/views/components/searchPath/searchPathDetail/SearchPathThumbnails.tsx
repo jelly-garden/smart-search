@@ -1,14 +1,17 @@
 import React from "react";
 
-import { SearchPathCondition } from "../SearchPath";
+import { GetLprDetailsResult } from "../../../../services/api/mockup/MockupInterface";
 
 /**
  * component interface 정의 영역
  */
 interface SearchPathThumbnailsProps {
-    searchPathCondition: SearchPathCondition;
+    lprDetails: GetLprDetailsResult[];
 }
 
 export const SearchPathThumbnails = (props: SearchPathThumbnailsProps) => {
+    const { lprDetails } = props;
+    console.log(lprDetails);
+
     return <div></div>;
 };

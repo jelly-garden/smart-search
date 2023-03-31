@@ -3,14 +3,13 @@ import React, { useMemo, useCallback } from "react";
 
 import * as Yup from "Yup";
 
-import { SearchForm } from "../../common/SearchForm";
-import { SearchCarNumberCondition } from "../SearchCarNumber";
+import { SearchCondition, SearchForm } from "../../common/SearchForm";
 
 /**
  * component interface 정의 영역
  */
 interface SearchCarNumberFormProps {
-    onSearch: (condition: SearchCarNumberCondition) => void;
+    onSearch: (condition: SearchCondition) => void;
 }
 
 export interface SearchCarNumberFormValues {
@@ -24,6 +23,16 @@ export interface SearchCarNumberFormValues {
 export const SearchCarNumberForm = (props: SearchCarNumberFormProps) => {
     const { onSearch } = props;
 
+    // const initialValues = useMemo(
+    //     (): SearchCarNumberFormValues => ({
+    //         car_num: "",
+    //         start_date: "",
+    //         start_time: "",
+    //         end_date: "",
+    //         end_time: "",
+    //     }),
+    //     []
+    // );
     const initialValues = useMemo(
         (): SearchCarNumberFormValues => ({
             car_num: "1234",
@@ -38,7 +47,9 @@ export const SearchCarNumberForm = (props: SearchCarNumberFormProps) => {
     const validationSchema = useMemo(
         (): Yup.ObjectSchema<any> =>
             Yup.object({
-                car_num: Yup.string().required("필수 입력값입니다."),
+                car_num: Yup.string()
+                    .matches(/^(\d{2,3}[가-힣]{1})?\d{4}$/, "올바른 차량번호를 입력하세요. (예: 12가1234, 1234)")
+                    .required("필수 입력값입니다."),
                 start_date: Yup.string().required("필수 입력값입니다."),
                 start_time: Yup.string().required("필수 입력값입니다."),
                 end_date: Yup.string().required("필수 입력값입니다."),
