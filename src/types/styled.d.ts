@@ -26,8 +26,6 @@ declare module "styled-components" {
         inputColor: string;
         inputBgColor: string;
         inputBorderColor: string;
-        uploadImageBorder: string;
-        disabledTextBgColor: string;
-        imageBgColor: string;
+        labelColor: string;
     }
 }

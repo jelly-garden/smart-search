@@ -25,7 +25,5 @@ export const themeDark: DefaultTheme = {
     inputColor: "rgba(255, 255, 255, 1)",
     inputBgColor: "#646465",
     inputBorderColor: "#59595a",
-    uploadImageBorder: "#ccc",
-    disabledTextBgColor: "transparent",
-    imageBgColor: "rgba(245, 245, 245, 1)",
+    labelColor: "#adb5bd",
 };

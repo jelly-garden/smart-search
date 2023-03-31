@@ -25,7 +25,5 @@ export const themeLight: DefaultTheme = {
     inputColor: "#3F4254",
     inputBgColor: "#fff",
     inputBorderColor: "#ccc",
-    uploadImageBorder: "#fff",
-    disabledTextBgColor: "#eee",
-    imageBgColor: "rgba(245, 245, 245, 1)",
+    labelColor: "#3F4254",
 };

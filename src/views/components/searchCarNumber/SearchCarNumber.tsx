@@ -4,7 +4,7 @@ import { Stack } from "@innodep/tms-react-ui";
 import styled from "styled-components";
 
 import { SearchCarNumberDetail } from "./searchCarNumberDetail/SearchCarNumberDetail";
-import { SearchCarNumberImages } from "./searchCarNumberDetail/SearchCarNumberImages";
+import { SearchCarNumberThumbnails } from "./searchCarNumberDetail/SearchCarNumberThumbnails";
 import { SearchCarNumberForm } from "./searchCarNumberList/SearchCarNumberForm";
 import { SearchCarNumberList } from "./searchCarNumberList/SearchCarNumberList";
 import { SearchCarNumberResults } from "./searchCarNumberList/SearchCarNumberResults";
@@ -17,18 +17,39 @@ export interface SearchCarNumberCondition {
     end_date: string;
 }
 
+export interface Device {
+    dev_name: string;
+    location: {
+        longitude: string;
+        latitude: string;
+    };
+    dev_serial: number;
+}
+
 export const SearchCarNumber = () => {
     const [searchCarNumberCondition, setSearchCarNumberCondition] = useState<SearchCarNumberCondition>();
     const [selectedCarNumber, setSelectedCarNumber] = useState<string>();
-    const [selectedDeviceSerial, setSelectedDeviceSerial] = useState<number>();
+    const [selectedDevice, setSelectedDevice] = useState<Device>();
 
+    /**
+     * @name handleBackButtonClick
+     * @function
+     * @description 뒤로가기 버튼 클릭 이벤트 핸들러
+     * @return {void}
+     */
     const handleBackButtonClick = useCallback(() => {
         setSelectedCarNumber(undefined);
-        setSelectedDeviceSerial(undefined);
+        setSelectedDevice(undefined);
     }, []);
 
-    const handleCloseImagesButtonClick = useCallback(() => {
-        setSelectedDeviceSerial(undefined);
+    /**
+     * @name handleCloseThumbnailsDrawerButtonClick
+     * @function
+     * @description 썸네일 사이드바 닫기 버튼 클릭 이벤트 핸들러
+     * @return {void}
+     */
+    const handleCloseThumbnailsDrawerButtonClick = useCallback(() => {
+        setSelectedDevice(undefined);
     }, []);
 
     return (
@@ -47,7 +68,8 @@ export const SearchCarNumber = () => {
                     <SearchCarNumberDetail
                         searchCarNumberCondition={searchCarNumberCondition}
                         selectedCarNumber={selectedCarNumber}
-                        selectDeviceSerial={setSelectedDeviceSerial}
+                        selectedDevice={selectedDevice}
+                        selectDevice={setSelectedDevice}
                         onBackButtonClick={handleBackButtonClick}
                     />
                 )}
@@ -55,12 +77,12 @@ export const SearchCarNumber = () => {
             <StyledRightWrap>
                 <SearchCarNumberMap />
             </StyledRightWrap>
-            {searchCarNumberCondition && selectedCarNumber && selectedDeviceSerial && (
-                <SearchCarNumberImages
+            {searchCarNumberCondition && selectedCarNumber && selectedDevice && (
+                <SearchCarNumberThumbnails
                     searchCarNumberCondition={searchCarNumberCondition}
                     selectedCarNumber={selectedCarNumber}
-                    selectedDeviceSerial={selectedDeviceSerial}
-                    onCloseImagesButtonClick={handleCloseImagesButtonClick}
+                    selectedDevice={selectedDevice}
+                    onCloseThumbnailsDrawerButtonClick={handleCloseThumbnailsDrawerButtonClick}
                 />
             )}
         </StyledWrap>

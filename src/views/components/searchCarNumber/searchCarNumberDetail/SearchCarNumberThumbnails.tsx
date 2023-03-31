@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 
 import axios, { AxiosResponse } from "axios";
+import moment from "moment";
 import { MdClose } from "react-icons/md";
 import styled from "styled-components";
 
@@ -9,21 +10,30 @@ import {
     GetLprDetailsResponse,
     GetLprDetailsResult,
 } from "../../../../services/api/mockup/MockupInterface";
-import { StyledIconButton } from "../../../../styles";
-import { SearchCarNumberCondition } from "../SearchCarNumber";
+import { SORTING_DESC } from "../../../../services/interfaces";
+import {
+    StyledCard,
+    StyledCardBody,
+    StyledCardHeader,
+    StyledCardImage,
+    StyledCardLi,
+    StyledCardUl,
+    StyledIconButton,
+} from "../../../../styles";
+import { Device, SearchCarNumberCondition } from "../SearchCarNumber";
 
 /**
  * component interface 정의 영역
  */
-interface SearchCarNumberImagesProps {
+interface SearchCarNumberThumbnailsProps {
     searchCarNumberCondition: SearchCarNumberCondition;
     selectedCarNumber: string;
-    selectedDeviceSerial: number;
-    onCloseImagesButtonClick: () => void;
+    selectedDevice: Device;
+    onCloseThumbnailsDrawerButtonClick: () => void;
 }
 
-export const SearchCarNumberImages = (props: SearchCarNumberImagesProps) => {
-    const { searchCarNumberCondition, selectedCarNumber, selectedDeviceSerial, onCloseImagesButtonClick } = props;
+export const SearchCarNumberThumbnails = (props: SearchCarNumberThumbnailsProps) => {
+    const { searchCarNumberCondition, selectedCarNumber, selectedDevice, onCloseThumbnailsDrawerButtonClick } = props;
 
     const [lprDetails, setLprDetails] = useState<GetLprDetailsResult[]>([]);
 
@@ -35,7 +45,7 @@ export const SearchCarNumberImages = (props: SearchCarNumberImagesProps) => {
      * @return {Promise<GetLprDetailsResponse>}
      */
     const getLprDetails = useCallback(async (params: GetLprDetailsParams): Promise<GetLprDetailsResponse> => {
-        console.log(params);
+        params;
         const res = (await axios.get("/getLprDetails.json")) as AxiosResponse;
         return new Promise((resolve, reject) => {
             if (res?.data.code === 200) {
@@ -49,10 +59,10 @@ export const SearchCarNumberImages = (props: SearchCarNumberImagesProps) => {
     useEffect(() => {
         const params: GetLprDetailsParams = {
             car_num: selectedCarNumber,
-            dev_serial: selectedDeviceSerial,
+            dev_serial: selectedDevice.dev_serial,
             start_date: searchCarNumberCondition.start_date,
             end_date: searchCarNumberCondition.end_date,
-            sorting: "desc",
+            sorting: SORTING_DESC,
         };
         getLprDetails(params).then((getLprDetailsResponse) => {
             setLprDetails(getLprDetailsResponse.results.list);
@@ -63,19 +73,33 @@ export const SearchCarNumberImages = (props: SearchCarNumberImagesProps) => {
         searchCarNumberCondition.end_date,
         searchCarNumberCondition.start_date,
         selectedCarNumber,
-        selectedDeviceSerial,
+        selectedDevice,
     ]);
-    console.log(lprDetails);
 
     return (
         <StyledWrap>
             <StyledHeader>
-                <StyledHeaderSpan>{selectedDeviceSerial}</StyledHeaderSpan>
-                <StyledIconButton size={"sm"} variant={"ghost"} onClick={onCloseImagesButtonClick}>
+                <span>{selectedDevice.dev_name}</span>
+                <StyledIconButton size={"sm"} variant={"ghost"} onClick={onCloseThumbnailsDrawerButtonClick}>
                     <MdClose size="80%" />
                 </StyledIconButton>
             </StyledHeader>
-            <StyledList></StyledList>
+            <StyledList>
+                <StyledCardUl>
+                    {lprDetails.map((detail, index) => (
+                        <StyledCardLi key={index} style={{ pointerEvents: "none" }}>
+                            <StyledCard>
+                                <StyledCardHeader>
+                                    <span>{moment(detail.date).format("YYYY-MM-DD HH:mm")}</span>
+                                </StyledCardHeader>
+                                <StyledCardBody>
+                                    <StyledCardImage alt="image" src={detail.image1}></StyledCardImage>
+                                </StyledCardBody>
+                            </StyledCard>
+                        </StyledCardLi>
+                    ))}
+                </StyledCardUl>
+            </StyledList>
         </StyledWrap>
     );
 };
@@ -100,9 +124,8 @@ const StyledHeader = styled.div`
     font-weight: 600;
     border-bottom: 1px solid ${({ theme }) => theme.proSideBarBorderColor};
 `;
-const StyledHeaderSpan = styled.span``;
 const StyledList = styled.div`
-    height: calc(100% - 52px);
+    height: calc(100% - 53px);
     padding: 0 8px;
     overflow-y: auto;
 `;

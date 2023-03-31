@@ -93,9 +93,8 @@ const config: Configuration = {
         new CopyPlugin({
             patterns: [
                 { from: "public/favicon.ico", to: "favicon.ico", noErrorOnMissing: true },
-                { from: "public/mockup/getCountsByCarNumber.json", to: "getCountsByCarNumber.json", noErrorOnMissing: true },
-                { from: "public/mockup/getDeviceLocations.json", to: "getDeviceLocations.json", noErrorOnMissing: true },
-                { from: "public/mockup/getCountsByDevice.json", to: "getCountsByDevice.json", noErrorOnMissing: true },
+                { from: "public/mockup/getLprCounts.json", to: "getLprCounts.json", noErrorOnMissing: true },
+                { from: "public/mockup/getLprCountsByDevice.json", to: "getLprCountsByDevice.json", noErrorOnMissing: true },
                 { from: "public/mockup/getLprDetails.json", to: "getLprDetails.json", noErrorOnMissing: true },
                 { from: "public/mockup/getDeviceImage.json", to: "getDeviceImage.json", noErrorOnMissing: true },
             ],

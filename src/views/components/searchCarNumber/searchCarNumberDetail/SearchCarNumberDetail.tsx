@@ -1,31 +1,33 @@
 import React, { useCallback, useEffect, useState } from "react";
 
 import axios, { AxiosResponse } from "axios";
+import moment from "moment/moment";
 import { AiOutlineLeft } from "react-icons/ai";
 import { MdRoute } from "react-icons/md";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 
 import {
-    GetCountsByDeviceParams,
-    GetCountsByDeviceResponse,
-    GetCountsByDeviceResult,
+    GetLprCountsByDeviceParams,
+    GetLprCountsByDeviceResponse,
+    GetLprCountsByDeviceResult,
 } from "../../../../services/api/mockup/MockupInterface";
 import {
     StyledIconButton,
-    StyledActionWrap,
-    StyledContent,
-    StyledContentWrap,
-    StyledImage,
-    StyledImageWrap,
-    StyledItemWrap,
-    StyledLabel,
-    StyledLabelWrap,
-    StyledLi,
-    StyledText,
-    StyledTextWrap,
-    StyledUl,
+    StyledListActionWrap,
+    StyledListContent,
+    StyledListContentWrap,
+    StyledListImage,
+    StyledListImageWrap,
+    StyledListItem,
+    StyledListContentLabel,
+    StyledListContentLabelWrap,
+    StyledListLi,
+    StyledListContentText,
+    StyledListContentTextWrap,
+    StyledListUl,
 } from "../../../../styles";
-import { SearchCarNumberCondition } from "../SearchCarNumber";
+import { Device, SearchCarNumberCondition } from "../SearchCarNumber";
 
 /**
  * component interface 정의 영역
@@ -33,29 +35,32 @@ import { SearchCarNumberCondition } from "../SearchCarNumber";
 interface SearchCarNumberDetailProps {
     searchCarNumberCondition: SearchCarNumberCondition;
     selectedCarNumber: string;
-    selectDeviceSerial: (dev_serial: number) => void;
+    selectedDevice?: Device;
+    selectDevice: (device: Device) => void;
     onBackButtonClick: () => void;
 }
 
 export const SearchCarNumberDetail = (props: SearchCarNumberDetailProps) => {
-    const { searchCarNumberCondition, selectedCarNumber, selectDeviceSerial, onBackButtonClick } = props;
+    const { searchCarNumberCondition, selectedCarNumber, selectedDevice, selectDevice, onBackButtonClick } = props;
 
-    const [countsByDevice, setCountsByDevice] = useState<GetCountsByDeviceResult[]>([]);
+    const history = useHistory();
+
+    const [lprCountsByDevice, setLprCountsByDevice] = useState<GetLprCountsByDeviceResult[]>([]);
 
     /**
-     * @name getCountsByDevice
+     * @name getLprCountsByDevice
      * @async
      * @function
      * @description 차번 통합 검색 상세
-     * @return {Promise<GetCountsByDeviceResponse>}
+     * @return {Promise<GetLprCountsByDeviceResponse>}
      */
-    const getCountsByDevice = useCallback(
-        async (params: GetCountsByDeviceParams): Promise<GetCountsByDeviceResponse> => {
-            console.log(params);
-            const res = (await axios.get("/getCountsByDevice.json")) as AxiosResponse;
+    const getLprCountsByDevice = useCallback(
+        async (params: GetLprCountsByDeviceParams): Promise<GetLprCountsByDeviceResponse> => {
+            params;
+            const res = (await axios.get("/getLprCountsByDevice.json")) as AxiosResponse;
             return new Promise((resolve, reject) => {
                 if (res?.data.code === 200) {
-                    resolve(res.data as GetCountsByDeviceResponse);
+                    resolve(res.data as GetLprCountsByDeviceResponse);
                 } else {
                     reject(res?.data.message);
                 }
@@ -65,15 +70,47 @@ export const SearchCarNumberDetail = (props: SearchCarNumberDetailProps) => {
     );
 
     useEffect(() => {
-        const params: GetCountsByDeviceParams = {
+        const params: GetLprCountsByDeviceParams = {
             car_num: selectedCarNumber,
+            full_num: true,
             start_date: searchCarNumberCondition.start_date,
             end_date: searchCarNumberCondition.end_date,
         };
-        getCountsByDevice(params).then((getCountsByDeviceResponse) => {
-            setCountsByDevice(getCountsByDeviceResponse.results.list);
+        getLprCountsByDevice(params).then((getLprCountsByDeviceResponse) => {
+            setLprCountsByDevice(getLprCountsByDeviceResponse.results.list);
         });
-    }, [getCountsByDevice, searchCarNumberCondition, selectedCarNumber]);
+    }, [getLprCountsByDevice, searchCarNumberCondition, selectedCarNumber]);
+
+    /**
+     * @name handleListItemClick
+     * @function
+     * @description 목록 요소 클릭 이벤트 핸들러
+     * @return {void}
+     */
+    const handleListItemClick = useCallback(
+        (count: GetLprCountsByDeviceResult) => {
+            selectDevice({
+                dev_name: count.dev_name,
+                location: count.location,
+                dev_serial: count.dev_serial,
+            });
+        },
+        [selectDevice]
+    );
+
+    /**
+     * @name handleRouteButtonClick
+     * @function
+     * @description 경로검색 버튼 클릭 이벤트 핸들러
+     * @return {void}
+     */
+    const handleRouteButtonClick = useCallback(
+        (e: React.MouseEvent<HTMLButtonElement>, count: GetLprCountsByDeviceResult) => {
+            e.stopPropagation();
+            history.push(`/search-path?recent_date=${count.recent_date}`);
+        },
+        [history]
+    );
 
     return (
         <StyledWrap>
@@ -81,53 +118,67 @@ export const SearchCarNumberDetail = (props: SearchCarNumberDetailProps) => {
                 <StyledIconButton size={"sm"} variant={"ghost"} onClick={onBackButtonClick}>
                     <AiOutlineLeft size="80%" />
                 </StyledIconButton>
-                <StyledHeaderSpan>{selectedCarNumber}</StyledHeaderSpan>
+                <span>{selectedCarNumber}</span>
             </StyledHeader>
             <StyledList>
-                <StyledUl>
-                    {countsByDevice.map((count, index) => (
-                        <StyledLi key={index} onClick={() => selectDeviceSerial(count.dev_serial)}>
-                            <StyledItemWrap>
-                                <StyledImageWrap>
-                                    <StyledImage alt="image" src={count.image1} />
-                                </StyledImageWrap>
-                                <StyledContentWrap>
-                                    <StyledContent>
-                                        <StyledLabelWrap>
-                                            <StyledLabel>cctv 아이디</StyledLabel>
-                                        </StyledLabelWrap>
-                                        <StyledTextWrap>
-                                            <StyledText>{count.dev_serial}</StyledText>
-                                        </StyledTextWrap>
-                                        <StyledLabelWrap>
-                                            <StyledLabel>cctv 이름</StyledLabel>
-                                        </StyledLabelWrap>
-                                        <StyledTextWrap>
-                                            <StyledText>{count.dev_name}</StyledText>
-                                        </StyledTextWrap>
-                                        <StyledLabelWrap>
-                                            <StyledLabel>최근발생일</StyledLabel>
-                                        </StyledLabelWrap>
-                                        <StyledTextWrap>
-                                            <StyledText>{count.recent_date}</StyledText>
-                                        </StyledTextWrap>
-                                        <StyledLabelWrap>
-                                            <StyledLabel>총 발생 횟수</StyledLabel>
-                                        </StyledLabelWrap>
-                                        <StyledTextWrap>
-                                            <StyledText>{count.count}</StyledText>
-                                        </StyledTextWrap>
-                                    </StyledContent>
-                                </StyledContentWrap>
-                                <StyledActionWrap>
-                                    <StyledIconButton size={"sm"} variant={"ghost"} title={"경로검색"}>
+                <StyledListUl>
+                    {lprCountsByDevice.map((lprCountByDevice, index) => (
+                        <StyledListLi
+                            key={index}
+                            onClick={() => handleListItemClick(lprCountByDevice)}
+                            active={lprCountByDevice.dev_serial === selectedDevice?.dev_serial}
+                        >
+                            <StyledListItem>
+                                <StyledListImageWrap>
+                                    <StyledListImage alt="image" src={lprCountByDevice.image1} />
+                                </StyledListImageWrap>
+                                <StyledListContentWrap>
+                                    <StyledListContent>
+                                        <StyledListContentLabelWrap>
+                                            <StyledListContentLabel>장비명 : </StyledListContentLabel>
+                                        </StyledListContentLabelWrap>
+                                        <StyledListContentTextWrap>
+                                            <StyledListContentText>{lprCountByDevice.dev_name}</StyledListContentText>
+                                        </StyledListContentTextWrap>
+                                        <StyledListContentLabelWrap>
+                                            <StyledListContentLabel>위도/경도 : </StyledListContentLabel>
+                                        </StyledListContentLabelWrap>
+                                        <StyledListContentTextWrap>
+                                            <StyledListContentText>
+                                                {lprCountByDevice.location.latitude} /{" "}
+                                                {lprCountByDevice.location.longitude}
+                                            </StyledListContentText>
+                                        </StyledListContentTextWrap>
+                                        <StyledListContentLabelWrap>
+                                            <StyledListContentLabel>최근발생일 : </StyledListContentLabel>
+                                        </StyledListContentLabelWrap>
+                                        <StyledListContentTextWrap>
+                                            <StyledListContentText>
+                                                {moment(lprCountByDevice.recent_date).format("YYYY-MM-DD HH:mm")}
+                                            </StyledListContentText>
+                                        </StyledListContentTextWrap>
+                                        <StyledListContentLabelWrap>
+                                            <StyledListContentLabel>총 발생 횟수 : </StyledListContentLabel>
+                                        </StyledListContentLabelWrap>
+                                        <StyledListContentTextWrap>
+                                            <StyledListContentText>{lprCountByDevice.count}회</StyledListContentText>
+                                        </StyledListContentTextWrap>
+                                    </StyledListContent>
+                                </StyledListContentWrap>
+                                <StyledListActionWrap>
+                                    <StyledIconButton
+                                        size={"sm"}
+                                        variant={"ghost"}
+                                        title={"경로검색"}
+                                        onClick={(e) => handleRouteButtonClick(e, lprCountByDevice)}
+                                    >
                                         <MdRoute size="80%" />
                                     </StyledIconButton>
-                                </StyledActionWrap>
-                            </StyledItemWrap>
-                        </StyledLi>
+                                </StyledListActionWrap>
+                            </StyledListItem>
+                        </StyledListLi>
                     ))}
-                </StyledUl>
+                </StyledListUl>
             </StyledList>
         </StyledWrap>
     );
@@ -142,15 +193,14 @@ const StyledWrap = styled.div`
 const StyledHeader = styled.div`
     display: flex;
     align-items: center;
+    gap: 4px;
     padding: 14px 16px;
     background: ${({ theme }) => theme.contentHeaderBgColor};
     font-weight: 600;
-`;
-const StyledHeaderSpan = styled.span`
-    margin-left: 8px;
+    border-bottom: 1px solid ${({ theme }) => theme.proSideBarBorderColor};
 `;
 const StyledList = styled.div`
-    height: calc(100% - 52px);
+    height: calc(100% - 53px);
     padding: 0 8px;
     overflow-y: auto;
 `;
