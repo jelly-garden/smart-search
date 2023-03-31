@@ -1,31 +1,24 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useMemo, useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 
 import * as Yup from "Yup";
 
-import { SearchForm } from "../../common/SearchForm";
-import { SearchCarNumberCondition } from "../SearchCarNumber";
+import { SearchForm, SearchFormValues } from "../common/SearchForm";
+
+import { SearchPathCondition } from "./SearchPath";
 
 /**
  * component interface 정의 영역
  */
-interface SearchCarNumberFormProps {
-    onSearch: (condition: SearchCarNumberCondition) => void;
+interface SearchPathFormProps {
+    onSearch: (condition: SearchPathCondition) => void;
 }
 
-export interface SearchCarNumberFormValues {
-    car_num: string;
-    start_date: string;
-    start_time: string;
-    end_date: string;
-    end_time: string;
-}
-
-export const SearchCarNumberForm = (props: SearchCarNumberFormProps) => {
+export const SearchPathForm = (props: SearchPathFormProps) => {
     const { onSearch } = props;
 
     const initialValues = useMemo(
-        (): SearchCarNumberFormValues => ({
+        (): SearchFormValues => ({
             car_num: "1234",
             start_date: "2023-03-20",
             start_time: "14:00",
@@ -54,7 +47,7 @@ export const SearchCarNumberForm = (props: SearchCarNumberFormProps) => {
      * @return {void}
      */
     const handleSubmit = useCallback(
-        (values: SearchCarNumberFormValues) => {
+        (values: SearchFormValues) => {
             onSearch({
                 car_num: values.car_num,
                 start_date: `${values.start_date} ${values.start_time}`,

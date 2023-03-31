@@ -58,9 +58,11 @@ export const SearchCarNumberResults = (props: SearchCarNumberListProps) => {
 
     useEffect(() => {
         if (searchCarNumberCondition) {
+            const regex = new RegExp(/^(\d){4}$/);
+            const onlyNumber = regex.test(searchCarNumberCondition.car_num);
             const params: GetLprCountsParams = {
                 car_num: searchCarNumberCondition.car_num,
-                full_num: searchCarNumberCondition.full_num,
+                full_num: onlyNumber,
                 start_date: searchCarNumberCondition.start_date,
                 end_date: searchCarNumberCondition.end_date,
             };

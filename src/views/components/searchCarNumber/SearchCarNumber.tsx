@@ -12,7 +12,6 @@ import { SearchCarNumberMap } from "./SearchCarNumberMap";
 
 export interface SearchCarNumberCondition {
     car_num: string;
-    full_num: boolean;
     start_date: string;
     end_date: string;
 }
