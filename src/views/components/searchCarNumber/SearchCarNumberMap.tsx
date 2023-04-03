@@ -2,7 +2,23 @@ import React from "react";
 
 import styled from "styled-components";
 
-export const SearchCarNumberMap = () => {
+import { GetLprCountsByDeviceResult } from "../../../services/api/mockup/MockupInterface";
+
+import { Device } from "./SearchCarNumber";
+
+/**
+ * component interface 정의 영역
+ */
+interface SearchCarNumberMapProps {
+    lprCountsByDevice: GetLprCountsByDeviceResult[];
+    selectedDevice?: Device;
+}
+
+export const SearchCarNumberMap = (props: SearchCarNumberMapProps) => {
+    const { lprCountsByDevice, selectedDevice } = props;
+    console.log("lprCountsByDevice: ", lprCountsByDevice);
+    console.log("selectedDevice: ", selectedDevice);
+
     return <StyledWrap></StyledWrap>;
 };
 

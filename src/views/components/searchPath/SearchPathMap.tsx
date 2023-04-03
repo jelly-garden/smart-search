@@ -2,7 +2,21 @@ import React from "react";
 
 import styled from "styled-components";
 
-export const SearchPathMap = () => {
+import { GetLprDetailsResult } from "../../../services/api/mockup/MockupInterface";
+
+/**
+ * component interface 정의 영역
+ */
+interface SearchPathMapProps {
+    lprDetails: GetLprDetailsResult[];
+    selectedLprDetail?: GetLprDetailsResult;
+}
+
+export const SearchPathMap = (props: SearchPathMapProps) => {
+    const { lprDetails, selectedLprDetail } = props;
+    console.log("lprDetails: ", lprDetails);
+    console.log("selectedLprDetail: ", selectedLprDetail);
+
     return <StyledWrap></StyledWrap>;
 };
 

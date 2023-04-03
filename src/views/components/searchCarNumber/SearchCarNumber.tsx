@@ -192,12 +192,12 @@ export const SearchCarNumber = () => {
                 )}
             </StyledLeftWrap>
             <StyledRightWrap>
-                <SearchCarNumberMap />
+                <SearchCarNumberMap lprCountsByDevice={lprCountsByDevice} selectedDevice={selectedDevice} />
             </StyledRightWrap>
             {selectedDevice && (
                 <SearchCarNumberThumbnails
+                    deviceName={selectedDevice.dev_name}
                     lprDetails={lprDetails}
-                    selectedDevice={selectedDevice}
                     onCloseDrawerButtonClick={handleCloseDrawerButtonClick}
                 />
             )}
@@ -213,10 +213,10 @@ const StyledWrap = styled(Stack)`
 `;
 const StyledLeftWrap = styled.div`
     position: relative;
-    width: 500px;
+    width: 450px;
     border-right: 1px solid ${({ theme }) => theme.proSideBarBorderColor};
 `;
 const StyledRightWrap = styled.div`
     position: relative;
-    width: calc(100% - 500px);
+    width: calc(100% - 450px);
 `;

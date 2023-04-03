@@ -7,51 +7,52 @@ import styled from "styled-components";
 import { GetLprDetailsResult } from "../../../../services/api/mockup/MockupInterface";
 import {
     StyledCard,
-    StyledCardBody,
+    StyledCardContent,
     StyledCardHeader,
-    StyledCardImage,
-    StyledCardLi,
-    StyledCardUl,
+    StyledCardContentImage,
     StyledIconButton,
+    StyledVerticalListLi,
+    StyledVerticalListUl,
+    StyledVerticalListWrap,
 } from "../../../../styles";
-import { Device } from "../SearchCarNumber";
 
 /**
  * component interface 정의 영역
  */
 interface SearchCarNumberThumbnailsProps {
+    deviceName: string;
     lprDetails: GetLprDetailsResult[];
-    selectedDevice: Device;
+
     onCloseDrawerButtonClick: () => void;
 }
 
 export const SearchCarNumberThumbnails = (props: SearchCarNumberThumbnailsProps) => {
-    const { lprDetails, selectedDevice, onCloseDrawerButtonClick } = props;
+    const { deviceName, lprDetails, onCloseDrawerButtonClick } = props;
 
     return (
         <StyledWrap>
             <StyledHeader>
-                <span>{selectedDevice.dev_name}</span>
+                <span>{deviceName}</span>
                 <StyledIconButton size={"sm"} variant={"ghost"} onClick={onCloseDrawerButtonClick}>
                     <MdClose size="80%" />
                 </StyledIconButton>
             </StyledHeader>
-            <StyledList>
-                <StyledCardUl>
+            <StyledContent>
+                <StyledCarNumberThumbnailsListUl>
                     {lprDetails.map((detail, index) => (
-                        <StyledCardLi key={index} style={{ pointerEvents: "none" }}>
+                        <StyledCarNumberThumbnailsListLi key={index}>
                             <StyledCard>
                                 <StyledCardHeader>
                                     <span>{moment(detail.date).format("YYYY-MM-DD HH:mm")}</span>
                                 </StyledCardHeader>
-                                <StyledCardBody>
-                                    <StyledCardImage alt="image" src={detail.image1}></StyledCardImage>
-                                </StyledCardBody>
+                                <StyledCardContent>
+                                    <StyledCardContentImage alt="image" src={detail.image1}></StyledCardContentImage>
+                                </StyledCardContent>
                             </StyledCard>
-                        </StyledCardLi>
+                        </StyledCarNumberThumbnailsListLi>
                     ))}
-                </StyledCardUl>
-            </StyledList>
+                </StyledCarNumberThumbnailsListUl>
+            </StyledContent>
         </StyledWrap>
     );
 };
@@ -76,8 +77,16 @@ const StyledHeader = styled.div`
     font-weight: 600;
     border-bottom: 1px solid ${({ theme }) => theme.proSideBarBorderColor};
 `;
-const StyledList = styled.div`
+const StyledContent = styled(StyledVerticalListWrap)`
     height: calc(100% - 53px);
-    padding: 0 8px;
-    overflow-y: auto;
+`;
+const StyledCarNumberThumbnailsListUl = styled(StyledVerticalListUl)``;
+const StyledCarNumberThumbnailsListLi = styled(StyledVerticalListLi)`
+    padding: 0;
+    margin-bottom: 8px;
+    border: none;
+    cursor: default;
+    &:hover {
+        background: inherit;
+    }
 `;

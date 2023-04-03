@@ -9,18 +9,18 @@ import styled from "styled-components";
 import { GetLprCountsByDeviceResult } from "../../../../services/api/mockup/MockupInterface";
 import {
     StyledIconButton,
-    StyledListActionWrap,
-    StyledListContent,
-    StyledListContentWrap,
-    StyledListImage,
-    StyledListImageWrap,
+    StyledListItemActionWrap,
+    StyledListItemContent,
+    StyledListItemContentWrap,
+    StyledListItemImage,
+    StyledListItemImageWrap,
     StyledListItem,
-    StyledListContentLabel,
-    StyledListContentLabelWrap,
-    StyledListLi,
-    StyledListContentText,
-    StyledListContentTextWrap,
-    StyledListUl,
+    StyledListItemContentLabel,
+    StyledListItemContentLabelWrap,
+    StyledVerticalListLi,
+    StyledListItemContentText,
+    StyledListItemContentTextWrap,
+    StyledVerticalListUl,
 } from "../../../../styles";
 import { Device } from "../SearchCarNumber";
 
@@ -31,7 +31,7 @@ interface SearchCarNumberDetailProps {
     lprCountsByDevice: GetLprCountsByDeviceResult[];
     selectedCarNumber: string;
     selectedDevice?: Device;
-    selectDevice: (device: Device) => void;
+    selectDevice: (device: Device | undefined) => void;
     onBackButtonClick: () => void;
 }
 
@@ -79,52 +79,56 @@ export const SearchCarNumberDetail = (props: SearchCarNumberDetailProps) => {
                 </StyledIconButton>
                 <span>{selectedCarNumber}</span>
             </StyledHeader>
-            <StyledList>
-                <StyledListUl>
+            <StyledContent>
+                <StyledVerticalListUl>
                     {lprCountsByDevice.map((lprCountByDevice, index) => (
-                        <StyledListLi
+                        <StyledVerticalListLi
                             key={index}
                             onClick={() => handleListItemClick(lprCountByDevice)}
                             active={lprCountByDevice.dev_serial === selectedDevice?.dev_serial}
                         >
                             <StyledListItem>
-                                <StyledListImageWrap>
-                                    <StyledListImage alt="image" src={lprCountByDevice.image1} />
-                                </StyledListImageWrap>
-                                <StyledListContentWrap>
-                                    <StyledListContent>
-                                        <StyledListContentLabelWrap>
-                                            <StyledListContentLabel>장비명 : </StyledListContentLabel>
-                                        </StyledListContentLabelWrap>
-                                        <StyledListContentTextWrap>
-                                            <StyledListContentText>{lprCountByDevice.dev_name}</StyledListContentText>
-                                        </StyledListContentTextWrap>
-                                        <StyledListContentLabelWrap>
-                                            <StyledListContentLabel>위도/경도 : </StyledListContentLabel>
-                                        </StyledListContentLabelWrap>
-                                        <StyledListContentTextWrap>
-                                            <StyledListContentText>
+                                <StyledListItemImageWrap>
+                                    <StyledListItemImage alt="image" src={lprCountByDevice.image1} />
+                                </StyledListItemImageWrap>
+                                <StyledListItemContentWrap>
+                                    <StyledListItemContent>
+                                        <StyledListItemContentLabelWrap>
+                                            <StyledListItemContentLabel>장비명 : </StyledListItemContentLabel>
+                                        </StyledListItemContentLabelWrap>
+                                        <StyledListItemContentTextWrap>
+                                            <StyledListItemContentText>
+                                                {lprCountByDevice.dev_name}
+                                            </StyledListItemContentText>
+                                        </StyledListItemContentTextWrap>
+                                        <StyledListItemContentLabelWrap>
+                                            <StyledListItemContentLabel>위도/경도 : </StyledListItemContentLabel>
+                                        </StyledListItemContentLabelWrap>
+                                        <StyledListItemContentTextWrap>
+                                            <StyledListItemContentText>
                                                 {lprCountByDevice.location.latitude} /{" "}
                                                 {lprCountByDevice.location.longitude}
-                                            </StyledListContentText>
-                                        </StyledListContentTextWrap>
-                                        <StyledListContentLabelWrap>
-                                            <StyledListContentLabel>최근발생일 : </StyledListContentLabel>
-                                        </StyledListContentLabelWrap>
-                                        <StyledListContentTextWrap>
-                                            <StyledListContentText>
+                                            </StyledListItemContentText>
+                                        </StyledListItemContentTextWrap>
+                                        <StyledListItemContentLabelWrap>
+                                            <StyledListItemContentLabel>최근발생일 : </StyledListItemContentLabel>
+                                        </StyledListItemContentLabelWrap>
+                                        <StyledListItemContentTextWrap>
+                                            <StyledListItemContentText>
                                                 {moment(lprCountByDevice.recent_date).format("YYYY-MM-DD HH:mm")}
-                                            </StyledListContentText>
-                                        </StyledListContentTextWrap>
-                                        <StyledListContentLabelWrap>
-                                            <StyledListContentLabel>총 발생 횟수 : </StyledListContentLabel>
-                                        </StyledListContentLabelWrap>
-                                        <StyledListContentTextWrap>
-                                            <StyledListContentText>{lprCountByDevice.count}회</StyledListContentText>
-                                        </StyledListContentTextWrap>
-                                    </StyledListContent>
-                                </StyledListContentWrap>
-                                <StyledListActionWrap>
+                                            </StyledListItemContentText>
+                                        </StyledListItemContentTextWrap>
+                                        <StyledListItemContentLabelWrap>
+                                            <StyledListItemContentLabel>총 발생 횟수 : </StyledListItemContentLabel>
+                                        </StyledListItemContentLabelWrap>
+                                        <StyledListItemContentTextWrap>
+                                            <StyledListItemContentText>
+                                                {lprCountByDevice.count}회
+                                            </StyledListItemContentText>
+                                        </StyledListItemContentTextWrap>
+                                    </StyledListItemContent>
+                                </StyledListItemContentWrap>
+                                <StyledListItemActionWrap>
                                     <StyledIconButton
                                         size={"sm"}
                                         variant={"ghost"}
@@ -133,12 +137,12 @@ export const SearchCarNumberDetail = (props: SearchCarNumberDetailProps) => {
                                     >
                                         <MdRoute size="80%" />
                                     </StyledIconButton>
-                                </StyledListActionWrap>
+                                </StyledListItemActionWrap>
                             </StyledListItem>
-                        </StyledListLi>
+                        </StyledVerticalListLi>
                     ))}
-                </StyledListUl>
-            </StyledList>
+                </StyledVerticalListUl>
+            </StyledContent>
         </StyledWrap>
     );
 };
@@ -158,7 +162,7 @@ const StyledHeader = styled.div`
     font-weight: 600;
     border-bottom: 1px solid ${({ theme }) => theme.proSideBarBorderColor};
 `;
-const StyledList = styled.div`
+const StyledContent = styled.div`
     height: calc(100% - 53px);
     padding: 0 8px;
     overflow-y: auto;

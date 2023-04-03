@@ -15,4 +15,5 @@ export * from "./components/Layout.styles";
 export * from "./components/Table.styles";
 export * from "./components/Dialog.styles";
 export * from "./components/List.styles";
+export * from "./components/ListItem.styles";
 export * from "./components/Card.styles";

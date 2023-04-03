@@ -5,17 +5,17 @@ import styled from "styled-components";
 
 import { GetLprCountsResult } from "../../../../services/api/mockup/MockupInterface";
 import {
-    StyledListContent,
-    StyledListContentWrap,
-    StyledListImage,
-    StyledListImageWrap,
+    StyledListItemContent,
+    StyledListItemContentWrap,
+    StyledListItemImage,
+    StyledListItemImageWrap,
     StyledListItem,
-    StyledListContentLabel,
-    StyledListContentLabelWrap,
-    StyledListLi,
-    StyledListContentText,
-    StyledListContentTextWrap,
-    StyledListUl,
+    StyledListItemContentLabel,
+    StyledListItemContentLabelWrap,
+    StyledVerticalListLi,
+    StyledListItemContentText,
+    StyledListItemContentTextWrap,
+    StyledVerticalListUl,
 } from "../../../../styles";
 
 /**
@@ -23,7 +23,7 @@ import {
  */
 interface SearchCarNumberListProps {
     lprCounts: GetLprCountsResult[];
-    selectCarNumber: (car_num: string) => void;
+    selectCarNumber: (car_num: string | undefined) => void;
 }
 
 export const SearchCarNumberResults = (props: SearchCarNumberListProps) => {
@@ -31,41 +31,41 @@ export const SearchCarNumberResults = (props: SearchCarNumberListProps) => {
 
     return (
         <StyledWrap>
-            <StyledListUl>
+            <StyledVerticalListUl>
                 {lprCounts.map((lprCount, index) => (
-                    <StyledListLi key={index} onClick={() => selectCarNumber(lprCount.car_num)}>
+                    <StyledVerticalListLi key={index} onClick={() => selectCarNumber(lprCount.car_num)}>
                         <StyledListItem>
-                            <StyledListImageWrap>
-                                <StyledListImage alt="image" src={lprCount.image1} />
-                            </StyledListImageWrap>
-                            <StyledListContentWrap>
-                                <StyledListContent>
-                                    <StyledListContentLabelWrap>
-                                        <StyledListContentLabel>차량번호 : </StyledListContentLabel>
-                                    </StyledListContentLabelWrap>
-                                    <StyledListContentTextWrap>
-                                        <StyledListContentText>{lprCount.car_num}</StyledListContentText>
-                                    </StyledListContentTextWrap>
-                                    <StyledListContentLabelWrap>
-                                        <StyledListContentLabel>데이터 수 : </StyledListContentLabel>
-                                    </StyledListContentLabelWrap>
-                                    <StyledListContentTextWrap>
-                                        <StyledListContentText>{lprCount.count}회</StyledListContentText>
-                                    </StyledListContentTextWrap>
-                                    <StyledListContentLabelWrap>
-                                        <StyledListContentLabel>최근발생일 : </StyledListContentLabel>
-                                    </StyledListContentLabelWrap>
-                                    <StyledListContentTextWrap>
-                                        <StyledListContentText>
+                            <StyledListItemImageWrap>
+                                <StyledListItemImage alt="image" src={lprCount.image1} />
+                            </StyledListItemImageWrap>
+                            <StyledListItemContentWrap>
+                                <StyledListItemContent>
+                                    <StyledListItemContentLabelWrap>
+                                        <StyledListItemContentLabel>차량번호 : </StyledListItemContentLabel>
+                                    </StyledListItemContentLabelWrap>
+                                    <StyledListItemContentTextWrap>
+                                        <StyledListItemContentText>{lprCount.car_num}</StyledListItemContentText>
+                                    </StyledListItemContentTextWrap>
+                                    <StyledListItemContentLabelWrap>
+                                        <StyledListItemContentLabel>데이터 수 : </StyledListItemContentLabel>
+                                    </StyledListItemContentLabelWrap>
+                                    <StyledListItemContentTextWrap>
+                                        <StyledListItemContentText>{lprCount.count}회</StyledListItemContentText>
+                                    </StyledListItemContentTextWrap>
+                                    <StyledListItemContentLabelWrap>
+                                        <StyledListItemContentLabel>최근발생일 : </StyledListItemContentLabel>
+                                    </StyledListItemContentLabelWrap>
+                                    <StyledListItemContentTextWrap>
+                                        <StyledListItemContentText>
                                             {moment(lprCount.recent_date).format("YYYY-MM-DD HH:mm")}
-                                        </StyledListContentText>
-                                    </StyledListContentTextWrap>
-                                </StyledListContent>
-                            </StyledListContentWrap>
+                                        </StyledListItemContentText>
+                                    </StyledListItemContentTextWrap>
+                                </StyledListItemContent>
+                            </StyledListItemContentWrap>
                         </StyledListItem>
-                    </StyledListLi>
+                    </StyledVerticalListLi>
                 ))}
-            </StyledListUl>
+            </StyledVerticalListUl>
         </StyledWrap>
     );
 };

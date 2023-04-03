@@ -24,6 +24,7 @@ export const SearchPath = () => {
 
     const [searchPathCondition, setSearchPathCondition] = useState<SearchCondition>();
     const [newInitialValues, setNewInitialValues] = useState<SearchFormValues>();
+    const [selectedLprDetail, setSelectedLprDetail] = useState<GetLprDetailsResult>();
 
     const [latestLprDetail, setLatestLprDetail] = useState<GetLprDetailsResult>();
     const [lprDetails, setLprDetails] = useState<GetLprDetailsResult[]>([]);
@@ -94,11 +95,22 @@ export const SearchPath = () => {
         <StyledWrap gap={"0px"}>
             <StyledLeftWrap>
                 <SearchPathForm newInitialValues={newInitialValues} onSearch={setSearchPathCondition} />
-                {latestLprDetail && <SearchPathLatestThumbnail latestLprDetail={latestLprDetail} />}
+                {latestLprDetail && searchPathCondition && (
+                    <SearchPathLatestThumbnail
+                        carNumber={searchPathCondition.car_num}
+                        latestLprDetail={latestLprDetail}
+                    />
+                )}
             </StyledLeftWrap>
             <StyledRightWrap>
-                <SearchPathMap />
-                {lprDetails.length > 0 && <SearchPathThumbnails lprDetails={lprDetails} />}
+                <SearchPathMap lprDetails={lprDetails} selectedLprDetail={selectedLprDetail} />
+                {lprDetails.length > 0 && (
+                    <SearchPathThumbnails
+                        lprDetails={lprDetails}
+                        selectedLprDetail={selectedLprDetail}
+                        selectLprDetail={setSelectedLprDetail}
+                    />
+                )}
             </StyledRightWrap>
         </StyledWrap>
     );
@@ -112,10 +124,10 @@ const StyledWrap = styled(Stack)`
 `;
 const StyledLeftWrap = styled.div`
     position: relative;
-    width: 500px;
+    width: 450px;
     border-right: 1px solid ${({ theme }) => theme.proSideBarBorderColor};
 `;
 const StyledRightWrap = styled.div`
     position: relative;
-    width: calc(100% - 500px);
+    width: calc(100% - 450px);
 `;
